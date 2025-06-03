@@ -75,6 +75,9 @@ EMOJI = {
     'spotify': '🎵',
     'soundcloud': '🌤️',
     'niconico': '🎬',
+    'twitch': '🟣',
+    'pornhub': '🔞',
+    'file': '📁',
     'search': '🔍',
     'queue': '📝',
     'loop': '🔁',
@@ -85,9 +88,6 @@ EMOJI = {
     'mic': '🎤',
     'forward': '⏩',
     'backward': '⏪',
-    'twitch': '🟣',
-    'pornhub': '🔞',
-    'file': '📁',
 }
 
 reading_channels = {}
