@@ -57,7 +57,7 @@ if not os.path.exists(ATTACHMENT_DIR):
     os.makedirs(ATTACHMENT_DIR)
 logger.info(f"添付ファイルディレクトリを作成しました: {ATTACHMENT_DIR}")
 
-kick_enabled = True
+kick_enabled = False
 kick_list = [
     411916947773587456,
     412347257233604609,
