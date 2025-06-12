@@ -2,7 +2,7 @@
 
 Spotify、SoundCloud、YouTube、ニコニコ動画、Twitch、Pornhub に対応した、高機能な音楽Botです。  
 
-[![MIT License](https://img.shields.io/github/license/ryusei-star/VCBot?color=44CC11&style=flat-square)](LICENSE)
+[![MIT License](https://img.shields.io/github/license/ryusei-star/VCBot?color=44CC11&style=flat-square)](https://github.com/ryusei-star/VCBot/blob/main/LICENSE)
 
 ### 対応機能
 - ⏯️ 再生・一時停止・スキップ
