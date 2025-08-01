@@ -1023,7 +1023,6 @@ class YTDLSource(discord.PCMVolumeTransformer):
         await message.edit(embed=embed)
         
         try:
-            # ファイル名の安全化
             timestamp = int(time.time())
             safe_filename = re.sub(r'[^\w\s.-]', '', attachment.filename)
             safe_filename = re.sub(r'[\s]+', '_', safe_filename).strip('_')
@@ -1031,13 +1030,10 @@ class YTDLSource(discord.PCMVolumeTransformer):
             if not safe_filename:
                 safe_filename = f"attachment_{timestamp}"
             
-            # 拡張子の確認
             file_ext = os.path.splitext(attachment.filename)[1].lower()
             
-            # 保存先のパス
             original_path = os.path.join(ATTACHMENT_DIR, f"{safe_filename}")
             
-            # ファイルをダウンロード
             async with aiohttp.ClientSession() as session:
                 async with session.get(attachment.url) as resp:
                     if resp.status != 200:
@@ -1057,7 +1053,6 @@ class YTDLSource(discord.PCMVolumeTransformer):
             
             logger.info(f"添付ファイルをダウンロードしました: {original_path} ({len(content)} バイト)")
             
-            # 音声ファイルに変換
             output_path = os.path.join(ATTACHMENT_DIR, f"{os.path.splitext(safe_filename)[0]}_{timestamp}.mp3")
             
             embed = discord.Embed(
@@ -1068,7 +1063,6 @@ class YTDLSource(discord.PCMVolumeTransformer):
             await message.edit(embed=embed)
             
             try:
-                # FFmpegで変換
                 subprocess.run([
                     'ffmpeg', '-y', '-i', original_path, 
                     '-vn', '-ar', '44100', '-ac', '2', '-ab', '192k', '-f', 'mp3',
@@ -1078,12 +1072,11 @@ class YTDLSource(discord.PCMVolumeTransformer):
                 if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
                     logger.info(f"ファイル変換成功: {output_path} ({os.path.getsize(output_path)} バイト)")
                     
-                    # データ作成
                     data = {
                         'title': os.path.splitext(attachment.filename)[0],
                         'url': attachment.url,
                         'webpage_url': attachment.url,
-                        'duration': None,  # 不明
+                        'duration': None,
                         'uploader': requester.display_name if requester else None,
                         'uploader_url': None,
                         'view_count': None,
@@ -1102,7 +1095,6 @@ class YTDLSource(discord.PCMVolumeTransformer):
                     )
                     await message.edit(embed=embed)
                     
-                    # 音声ソース作成
                     source = discord.FFmpegPCMAudio(output_path, **ffmpeg_options)
                     transformed_source = discord.PCMVolumeTransformer(source, volume=0.5)
                     return cls(transformed_source, data=data)
@@ -1625,7 +1617,6 @@ class Music(commands.Cog):
     @commands.command(name='play', aliases=['p'])
     async def play(self, ctx, *, query=None):
         try:
-            # 添付ファイルの確認
             if ctx.message.attachments and len(ctx.message.attachments) > 0:
                 attachment = ctx.message.attachments[0]
                 
@@ -1695,7 +1686,6 @@ class Music(commands.Cog):
                     await message.edit(embed=error_embed)
                     return
             
-            # 通常のURL/検索クエリ処理
             if query is None:
                 embed = discord.Embed(
                     title=f"{EMOJI['error']} エラー",
